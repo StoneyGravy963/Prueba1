@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="12dp"
+    android:background="@drawable/widget_background">
+
+    <!-- Icono: usar mipmap o PNG para evitar problemas con vectores en algunos launchers -->
+    <ImageView
+        android:id="@+id/widget_icono"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@mipmap/ic_launcher"
+        android:contentDescription="@null" />
+
+    <TextView
+        android:id="@+id/widget_titulo_cancion"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Ninguna canción"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:paddingStart="12dp"
+        android:ellipsize="end"
+        android:maxLines="1" />
+
+    <!-- Botones: usar ImageView (o ImageButton pero sin atributos de tema) -->
+    <ImageView
+        android:id="@+id/widget_boton_play_pausa"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@android:drawable/ic_media_play"
+        android:background="@android:color/transparent"
+        android:contentDescription="@null" />
+
+    <ImageView
+        android:id="@+id/widget_boton_stop"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@android:drawable/ic_menu_close_clear_cancel"
+        android:background="@android:color/transparent"
+        android:contentDescription="@null" />
+
+</LinearLayout>

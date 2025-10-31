@@ -6,6 +6,7 @@ import android.app.NotificationManager
 import android.app.Service
 import android.content.Intent
 import android.net.Uri
+import android.os.Binder
 import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
@@ -17,6 +18,17 @@ import androidx.media3.common.util.UnstableApi
 class ServicioReproduccion : Service() {
 
     private var reproductor: ExoPlayer? = null
+    private val binder = ReproductorBinder()
+
+    // Método público para que los clientes (como MainActivity) obtengan el reproductor
+    fun getReproductor(): ExoPlayer? {
+        return reproductor
+    }
+
+    // Clase Binder para los clientes
+    inner class ReproductorBinder : Binder() {
+        fun getServicio(): ServicioReproduccion = this@ServicioReproduccion
+    }
 
     companion object {
         const val ACTION_PLAY = "com.example.examenn.ACTION_PLAY"
@@ -29,7 +41,6 @@ class ServicioReproduccion : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        // Crear el reproductor
         reproductor = ExoPlayer.Builder(this).build()
         crearCanalNotificacion()
     }
@@ -51,24 +62,22 @@ class ServicioReproduccion : Service() {
             }
             ACTION_PAUSE -> {
                 reproductor?.pause()
-                // Opcional: actualizar la notificación para mostrar el estado de pausa
             }
             ACTION_STOP -> {
                 reproductor?.stop()
                 stopForeground(true)
-                stopSelf() // Detener el servicio
+                stopSelf()
             }
         }
 
-        return START_NOT_STICKY // El servicio no se reiniciará automáticamente
+        return START_NOT_STICKY
     }
 
     private fun crearNotificacion(contentText: String): Notification {
-        // Aquí se podría añadir más información, como el título de la canción
         return NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
             .setContentTitle("Mi Reproductor")
             .setContentText(contentText)
-            .setSmallIcon(R.drawable.ic_launcher_foreground) // Usar un ícono adecuado
+            .setSmallIcon(R.drawable.ic_launcher_foreground)
             .build()
     }
 
@@ -90,7 +99,7 @@ class ServicioReproduccion : Service() {
         reproductor = null
     }
 
-    override fun onBind(intent: Intent?): IBinder? {
-        return null // No usamos binding por ahora
+    override fun onBind(intent: Intent?): IBinder {
+        return binder // Devolvemos nuestro binder
     }
 }

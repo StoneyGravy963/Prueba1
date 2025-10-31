@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Examenn</string>
+    <string name="app_widget_description">Widget para controlar la reproducción de música</string>
+
 </resources>

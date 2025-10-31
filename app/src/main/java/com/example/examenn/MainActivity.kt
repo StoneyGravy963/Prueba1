@@ -1,7 +1,11 @@
 package com.example.examenn
 
+import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
+import android.content.ServiceConnection
 import android.os.Bundle
+import android.os.IBinder
 import androidx.appcompat.app.AppCompatActivity
 import com.example.examenn.databinding.ActivityMainBinding
 import androidx.media3.common.util.UnstableApi
@@ -13,6 +17,28 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var listaCanciones: List<Cancion>
 
+    // Propiedades para la vinculación con el servicio
+    private var servicioReproduccion: ServicioReproduccion? = null
+    private var vinculado = false
+
+    /** Define los callbacks para la vinculación con el servicio */
+    private val connection = object : ServiceConnection {
+        override fun onServiceConnected(className: ComponentName, service: IBinder) {
+            val binder = service as ServicioReproduccion.ReproductorBinder
+            servicioReproduccion = binder.getServicio()
+            vinculado = true
+
+            // Conectar el reproductor del servicio a nuestra PlayerView
+            binding.vistaReproductor.player = servicioReproduccion?.getReproductor()
+        }
+
+        override fun onServiceDisconnected(arg0: ComponentName) {
+            vinculado = false
+            servicioReproduccion = null
+            binding.vistaReproductor.player = null
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -21,6 +47,23 @@ class MainActivity : AppCompatActivity() {
         crearListaCanciones()
         configurarRecyclerView()
         configurarListeners()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // Vincular al ServicioReproduccion
+        Intent(this, ServicioReproduccion::class.java).also { intent ->
+            bindService(intent, connection, Context.BIND_AUTO_CREATE)
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        // Desvincular del servicio
+        if (vinculado) {
+            unbindService(connection)
+            vinculado = false
+        }
     }
 
     private fun crearListaCanciones() {
@@ -33,7 +76,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun configurarListeners() {
         binding.botonReproducir.setOnClickListener {
-            // Ahora este botón puede usarse para reanudar la reproducción
             val intent = Intent(this, ServicioReproduccion::class.java).apply {
                 action = ServicioReproduccion.ACTION_PLAY
             }
@@ -69,7 +111,4 @@ class MainActivity : AppCompatActivity() {
         binding.recyclerViewCanciones.layoutManager = LinearLayoutManager(this)
         binding.recyclerViewCanciones.adapter = adapter
     }
-
-    // Ya no necesitamos gestionar el ciclo de vida del reproductor aquí,
-    // el Servicio se encarga de ello.
 }
