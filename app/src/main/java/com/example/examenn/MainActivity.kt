@@ -1,19 +1,16 @@
 package com.example.examenn
 
-import android.net.Uri
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.media3.common.MediaItem
-import androidx.media3.exoplayer.ExoPlayer
 import com.example.examenn.databinding.ActivityMainBinding
 import androidx.media3.common.util.UnstableApi
 import androidx.recyclerview.widget.LinearLayoutManager
 
 @UnstableApi
-class MainActivity : AppCompatActivity(), CancionesAdapter.OnItemClickListener {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private var reproductor: ExoPlayer? = null
     private lateinit var listaCanciones: List<Cancion>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -21,11 +18,9 @@ class MainActivity : AppCompatActivity(), CancionesAdapter.OnItemClickListener {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Inicializar la lista de canciones
         crearListaCanciones()
-
-        // Configurar RecyclerView ya aquí (para que el adapter reciba 'this' sin error)
         configurarRecyclerView()
+        configurarListeners()
     }
 
     private fun crearListaCanciones() {
@@ -36,76 +31,45 @@ class MainActivity : AppCompatActivity(), CancionesAdapter.OnItemClickListener {
         )
     }
 
-    private fun inicializarReproductor() {
-        if (reproductor != null) return
-
-        reproductor = ExoPlayer.Builder(this).build().also { exoPlayer ->
-            binding.vistaReproductor.player = exoPlayer
-            // No cargamos un MediaItem por defecto aquí; se cargará cuando el usuario pulse una canción.
-        }
-        configurarListeners()
-    }
-
     private fun configurarListeners() {
         binding.botonReproducir.setOnClickListener {
-            reproductor?.play()
+            // Ahora este botón puede usarse para reanudar la reproducción
+            val intent = Intent(this, ServicioReproduccion::class.java).apply {
+                action = ServicioReproduccion.ACTION_PLAY
+            }
+            startService(intent)
         }
 
         binding.botonPausar.setOnClickListener {
-            reproductor?.pause()
+            val intent = Intent(this, ServicioReproduccion::class.java).apply {
+                action = ServicioReproduccion.ACTION_PAUSE
+            }
+            startService(intent)
         }
 
         binding.botonDetener.setOnClickListener {
-            reproductor?.stop()
-            reproductor?.seekTo(0)
+            val intent = Intent(this, ServicioReproduccion::class.java).apply {
+                action = ServicioReproduccion.ACTION_STOP
+            }
+            startService(intent)
         }
     }
 
     private fun configurarRecyclerView() {
+        val adapter = CancionesAdapter(listaCanciones, object : CancionesAdapter.OnItemClickListener {
+            override fun onItemClick(cancion: Cancion) {
+                val uriCancion = "android.resource://$packageName/${cancion.recursoId}"
+                val intent = Intent(this@MainActivity, ServicioReproduccion::class.java).apply {
+                    action = ServicioReproduccion.ACTION_PLAY
+                    putExtra(ServicioReproduccion.EXTRA_CANCION_URI, uriCancion)
+                }
+                startService(intent)
+            }
+        })
         binding.recyclerViewCanciones.layoutManager = LinearLayoutManager(this)
-        binding.recyclerViewCanciones.adapter = CancionesAdapter(listaCanciones, this)
+        binding.recyclerViewCanciones.adapter = adapter
     }
 
-    private fun liberarReproductor() {
-        reproductor?.release()
-        reproductor = null
-        binding.vistaReproductor.player = null
-    }
-
-    // Gestionar el ciclo de vida del reproductor
-    public override fun onStart() {
-        super.onStart()
-        inicializarReproductor()
-    }
-
-    public override fun onResume() {
-        super.onResume()
-    }
-
-    public override fun onPause() {
-        super.onPause()
-        reproductor?.pause()
-    }
-
-    public override fun onStop() {
-        super.onStop()
-        liberarReproductor()
-    }
-
-    // Implementación de la interfaz del adaptador: se llama cuando el usuario pulsa una canción
-    override fun onItemClick(cancion: Cancion) {
-        // Asegurarse de que el reproductor está inicializado
-        if (reproductor == null) {
-            inicializarReproductor()
-        }
-
-        val uriCancion = Uri.parse("android.resource://${packageName}/${cancion.recursoId}")
-        val itemMedio = MediaItem.fromUri(uriCancion)
-
-        reproductor?.let { exo ->
-            exo.setMediaItem(itemMedio)
-            exo.prepare()
-            exo.play()
-        }
-    }
+    // Ya no necesitamos gestionar el ciclo de vida del reproductor aquí,
+    // el Servicio se encarga de ello.
 }
