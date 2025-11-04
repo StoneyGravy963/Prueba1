@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center_horizontal"
     tools:context=".MainActivity">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -20,39 +19,6 @@
         android:id="@+id/vista_reproductor"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        app:use_controller="true"
-        app:show_timeout="5000"
-        app:controller_layout_id="@layout/exo_player_control_view"
-        android:background="@android:color/darker_gray"
-        android:layout_margin="16dp"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal"
-        android:layout_marginTop="16dp">
-
-        <Button
-            android:id="@+id/boton_reproducir"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Reproducir"
-            android:layout_marginEnd="8dp"/>
-
-        <Button
-            android:id="@+id/boton_pausar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Pausar"
-            android:layout_marginEnd="8dp"/>
-
-        <Button
-            android:id="@+id/boton_detener"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Detener"/>
-
-    </LinearLayout>
+        app:use_controller="true" />
 
 </LinearLayout>
