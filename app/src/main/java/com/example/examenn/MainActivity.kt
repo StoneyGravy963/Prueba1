@@ -73,9 +73,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun crearListaCanciones() {
         listaCanciones = listOf(
-            Cancion("Canción 1", "03:30", R.raw.cancion1, R.drawable.icono_cancion),
-            Cancion("Canción 2", "04:15", R.raw.cancion2, R.drawable.icono_cancion),
-            Cancion("Canción 3", "02:50", R.raw.cancion3, R.drawable.icono_cancion)
+            Cancion("Canción 1", "01:52", R.raw.cancion1, R.drawable.icono_cancion),
+            Cancion("Canción 2", "02:37", R.raw.cancion2, R.drawable.icono_cancion),
+            Cancion("Canción 3", "01:51", R.raw.cancion3, R.drawable.icono_cancion)
         )
     }
 
