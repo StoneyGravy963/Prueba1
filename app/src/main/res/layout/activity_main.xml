@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/widget_bg"
     tools:context=".MainActivity">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -19,6 +20,16 @@
         android:id="@+id/vista_reproductor"
         android:layout_width="match_parent"
         android:layout_height="200dp"
+        android:background="@color/color_surface"
         app:use_controller="true" />
+
+    <Button
+        android:id="@+id/boton_detener_main_activity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Detener"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="8dp"
+        android:layout_marginTop="8dp"/>
 
 </LinearLayout>

@@ -46,6 +46,13 @@ class MainActivity : AppCompatActivity() {
 
         crearListaCanciones()
         configurarRecyclerView()
+
+        binding.botonDetenerMainActivity.setOnClickListener {
+            val intent = Intent(this, ServicioReproduccion::class.java).apply {
+                action = ServicioReproduccion.ACTION_STOP
+            }
+            startService(intent)
+        }
     }
 
     // Volvemos a añadir onStart y onStop para gestionar la vinculación
@@ -66,9 +73,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun crearListaCanciones() {
         listaCanciones = listOf(
-            Cancion("Canción 1", "03:30", R.raw.cancion1, R.drawable.ic_launcher_foreground),
-            Cancion("Canción 2", "04:15", R.raw.cancion2, R.drawable.ic_launcher_foreground),
-            Cancion("Canción 3", "02:50", R.raw.cancion3, R.drawable.ic_launcher_foreground)
+            Cancion("Canción 1", "03:30", R.raw.cancion1, R.drawable.icono_cancion),
+            Cancion("Canción 2", "04:15", R.raw.cancion2, R.drawable.icono_cancion),
+            Cancion("Canción 3", "02:50", R.raw.cancion3, R.drawable.icono_cancion)
         )
     }
 

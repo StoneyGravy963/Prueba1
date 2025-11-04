@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
+    <!-- Paleta de colores para el tema oscuro -->
+    <color name="color_primary">#00BCD4</color> <!-- Turquesa/Cyan como color de acento -->
+    <color name="color_primary_dark">#0097A7</color>
+    <color name="color_accent">#00BCD4</color>
+
+    <color name="color_background">#121212</color> <!-- Fondo oscuro principal -->
+    <color name="color_surface">#1E1E1E</color> <!-- Superficies como el reproductor -->
+
+    <color name="text_color_primary">#E1E1E1</color> <!-- Texto principal -->
+    <color name="text_color_secondary">#B3B3B3</color> <!-- Texto secundario -->
+
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 </resources>

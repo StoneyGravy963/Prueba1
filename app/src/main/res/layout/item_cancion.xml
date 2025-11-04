@@ -28,14 +28,15 @@
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:textStyle="bold"
-            tools:text="Nombre de la Canci\u00f3n"/>
+            android:textColor="@color/text_color_primary"
+            tools:text="Nombre de la Canción"/>
 
         <TextView
             android:id="@+id/texto_duracion_cancion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:textColor="@android:color/darker_gray"
+            android:textColor="@color/text_color_secondary"
             tools:text="03:45"/>
 
     </LinearLayout>

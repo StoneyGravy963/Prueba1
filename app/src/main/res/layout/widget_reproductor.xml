@@ -5,25 +5,27 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="12dp"
-    android:background="@drawable/widget_background">
+    android:background="@drawable/widget_bg">
 
     <!-- Icono: usar mipmap o PNG para evitar problemas con vectores en algunos launchers -->
     <ImageView
         android:id="@+id/widget_icono"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:src="@mipmap/ic_launcher"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:src="@drawable/widget_reproductor1"
         android:contentDescription="@null" />
 
     <TextView
         android:id="@+id/widget_titulo_cancion"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_weight="1"
         android:text="Ninguna canción"
-        android:textColor="@android:color/white"
-        android:textSize="14sp"
+        android:textColor="@color/text_color_primary"
+        android:textSize="16sp"
+        android:gravity="center"
         android:paddingStart="12dp"
+        android:paddingEnd="12dp"
         android:ellipsize="end"
         android:maxLines="1" />
 
