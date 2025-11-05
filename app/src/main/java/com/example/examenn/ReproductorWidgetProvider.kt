@@ -47,6 +47,13 @@ class ReproductorWidgetProvider : AppWidgetProvider() {
         ) {
             val views = RemoteViews(context.packageName, R.layout.widget_reproductor)
 
+            // PendingIntent para abrir la MainActivity al hacer clic en el widget
+            val appIntent = Intent(context, MainActivity::class.java)
+            val appPendingIntent = PendingIntent.getActivity(
+                context, 0, appIntent, PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
+            )
+            views.setOnClickPendingIntent(R.id.widget_root, appPendingIntent)
+
             views.setTextViewText(R.id.widget_titulo_cancion, tituloCancion)
 
             if (isPlaying) {
