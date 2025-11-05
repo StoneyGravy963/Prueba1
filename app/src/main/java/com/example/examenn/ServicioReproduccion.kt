@@ -104,7 +104,7 @@ class ServicioReproduccion : Service() {
                     // Cargar la primera canción por defecto si no hay nada en la playlist
                     // Esto asume que R.raw.cancion1 existe y es la primera canción.
                     val defaultUri = "android.resource://${packageName}/${R.raw.cancion1}"
-                    val defaultTitle = "Canción 1" // Asegurarse de que coincide con MainActivity
+                    val defaultTitle = "Feel it" // Asegurarse de que coincide con MainActivity
                     val mediaItem = MediaItem.fromUri(Uri.parse(defaultUri))
 
                     this.titulosPlaylist = listOf(defaultTitle) // Carga una playlist mínima para el listener
