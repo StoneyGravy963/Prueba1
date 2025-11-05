@@ -7,7 +7,6 @@
     android:padding="12dp"
     android:background="@drawable/widget_bg">
 
-    <!-- Icono: usar mipmap o PNG para evitar problemas con vectores en algunos launchers -->
     <ImageView
         android:id="@+id/widget_icono"
         android:layout_width="96dp"
@@ -29,7 +28,6 @@
         android:ellipsize="end"
         android:maxLines="1" />
 
-    <!-- Botones: usar ImageView (o ImageButton pero sin atributos de tema) -->
     <ImageView
         android:id="@+id/widget_boton_play_pausa"
         android:layout_width="48dp"

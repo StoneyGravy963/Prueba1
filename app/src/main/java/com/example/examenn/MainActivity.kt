@@ -17,18 +17,15 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var listaCanciones: List<Cancion>
 
-    // Volvemos a añadir las propiedades para la vinculación con el servicio
     private var servicioReproduccion: ServicioReproduccion? = null
     private var vinculado = false
 
-    /** Volvemos a definir los callbacks para la vinculación con el servicio */
     private val connection = object : ServiceConnection {
         override fun onServiceConnected(className: ComponentName, service: IBinder) {
             val binder = service as ServicioReproduccion.ReproductorBinder
             servicioReproduccion = binder.getServicio()
             vinculado = true
 
-            // Conectamos el reproductor del servicio a nuestra PlayerView en MainActivity
             binding.vistaReproductor.player = servicioReproduccion?.getReproductor()
         }
 
@@ -54,8 +51,6 @@ class MainActivity : AppCompatActivity() {
             startService(intent)
         }
     }
-
-    // Volvemos a añadir onStart y onStop para gestionar la vinculación
     override fun onStart() {
         super.onStart()
         Intent(this, ServicioReproduccion::class.java).also { intent ->
@@ -82,8 +77,6 @@ class MainActivity : AppCompatActivity() {
     private fun configurarRecyclerView() {
         val adapter = CancionesAdapter(listaCanciones, object : CancionesAdapter.OnItemClickListener {
             override fun onItemClick(cancion: Cancion) {
-                // Al hacer clic, NO abrimos una nueva actividad.
-                // Enviamos la orden de reproducir la playlist al servicio.
                 val uris = ArrayList(listaCanciones.map { "android.resource://$packageName/${it.recursoId}" })
                 val titulos = ArrayList(listaCanciones.map { it.nombre })
                 val startIndex = listaCanciones.indexOf(cancion)

@@ -23,8 +23,6 @@ class ServicioReproduccion : Service() {
     private val binder = ReproductorBinder()
     private var titulosPlaylist: List<String> = emptyList()
     private var tituloCancionActual: String? = "Ninguna canción"
-
-    // Listener para detectar cambios en el reproductor
     private val playerListener = object : Player.Listener {
         override fun onIsPlayingChanged(isPlaying: Boolean) {
             super.onIsPlayingChanged(isPlaying)
@@ -40,13 +38,11 @@ class ServicioReproduccion : Service() {
 
         override fun onMediaItemTransition(mediaItem: MediaItem?, reason: Int) {
             super.onMediaItemTransition(mediaItem, reason)
-            // Cuando la canción cambia, actualizamos el título actual
             val newIndex = reproductor?.currentMediaItemIndex ?: -1
             if (newIndex != -1 && newIndex < titulosPlaylist.size) {
                 tituloCancionActual = titulosPlaylist[newIndex]
             }
             enviarBroadcastDeActualizacion()
-            // Y actualizamos la notificación con el nuevo título
             startForeground(NOTIFICATION_ID, crearNotificacion(tituloCancionActual ?: "Reproduciendo..."))
         }
     }
@@ -60,7 +56,7 @@ class ServicioReproduccion : Service() {
     }
 
     companion object {
-        const val ACTION_PLAY_PLAYLIST = "com.example.examenn.ACTION_PLAY_PLAYLIST" // Nueva acción
+        const val ACTION_PLAY_PLAYLIST = "com.example.examenn.ACTION_PLAY_PLAYLIST"
         const val ACTION_PLAY = "com.example.examenn.ACTION_PLAY"
         const val ACTION_PAUSE = "com.example.examenn.ACTION_PAUSE"
         const val ACTION_STOP = "com.example.examenn.ACTION_STOP"
@@ -72,7 +68,7 @@ class ServicioReproduccion : Service() {
     override fun onCreate() {
         super.onCreate()
         reproductor = ExoPlayer.Builder(this).build().apply {
-            repeatMode = Player.REPEAT_MODE_ALL // Repetir la playlist
+            repeatMode = Player.REPEAT_MODE_ALL
         }
         reproductor?.addListener(playerListener)
         crearCanalNotificacion()
@@ -92,22 +88,16 @@ class ServicioReproduccion : Service() {
                     reproductor?.setMediaItems(mediaItems, startIndex, 0)
                     reproductor?.prepare()
                     reproductor?.play()
-
-                    // Actualizamos el título inicial
                     tituloCancionActual = titulos[startIndex]
                 }
             }
             ACTION_PLAY -> {
-                // Si ya hay una playlist cargada, simplemente reanuda la reproducción
-                // Si no hay nada cargado, inicia la primera canción por defecto.
                 if (reproductor?.currentMediaItem == null) {
-                    // Cargar la primera canción por defecto si no hay nada en la playlist
-                    // Esto asume que R.raw.cancion1 existe y es la primera canción.
                     val defaultUri = "android.resource://${packageName}/${R.raw.cancion1}"
-                    val defaultTitle = "Feel it" // Asegurarse de que coincide con MainActivity
+                    val defaultTitle = "Feel it"
                     val mediaItem = MediaItem.fromUri(Uri.parse(defaultUri))
 
-                    this.titulosPlaylist = listOf(defaultTitle) // Carga una playlist mínima para el listener
+                    this.titulosPlaylist = listOf(defaultTitle)
                     tituloCancionActual = defaultTitle
 
                     reproductor?.setMediaItem(mediaItem)
@@ -121,8 +111,6 @@ class ServicioReproduccion : Service() {
             ACTION_STOP -> {
                 reproductor?.pause()
                 reproductor?.seekTo(0)
-                // Mantenemos el servicio vivo para recordar la playlist,
-                // pero permitimos que la notificación se descarte si el usuario la desliza.
                 stopForeground(false)
             }
         }
@@ -154,7 +142,7 @@ class ServicioReproduccion : Service() {
             .setContentTitle("Mi Reproductor")
             .setContentText(contentText)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
-            .setContentIntent(pendingIntent) // Añadimos el PendingIntent para abrir MainActivity
+            .setContentIntent(pendingIntent)
             .build()
     }
 

@@ -12,7 +12,6 @@ import androidx.media3.common.util.UnstableApi
 @UnstableApi
 class ReproductorWidgetProvider : AppWidgetProvider() {
 
-    // onUpdate se sigue usando para la configuración inicial del widget
     override fun onUpdate(
         context: Context,
         appWidgetManager: AppWidgetManager,
@@ -23,7 +22,6 @@ class ReproductorWidgetProvider : AppWidgetProvider() {
         }
     }
 
-    // onReceive escuchará los broadcasts de nuestro servicio
     override fun onReceive(context: Context, intent: Intent) {
         super.onReceive(context, intent)
         if (intent.action == ServicioReproduccion.ACTION_WIDGET_UPDATE) {
@@ -49,10 +47,8 @@ class ReproductorWidgetProvider : AppWidgetProvider() {
         ) {
             val views = RemoteViews(context.packageName, R.layout.widget_reproductor)
 
-            // Actualizar el texto
             views.setTextViewText(R.id.widget_titulo_cancion, tituloCancion)
 
-            // Actualizar el botón de Play/Pausa y su acción
             if (isPlaying) {
                 views.setImageViewResource(R.id.widget_boton_play_pausa, android.R.drawable.ic_media_pause)
                 val pauseIntent = Intent(context, ServicioReproduccion::class.java).apply {
@@ -73,7 +69,6 @@ class ReproductorWidgetProvider : AppWidgetProvider() {
                 views.setOnClickPendingIntent(R.id.widget_boton_play_pausa, playPendingIntent)
             }
 
-            // Configurar el botón Stop (su acción no cambia)
             val stopIntent = Intent(context, ServicioReproduccion::class.java).apply {
                 action = ServicioReproduccion.ACTION_STOP
             }
