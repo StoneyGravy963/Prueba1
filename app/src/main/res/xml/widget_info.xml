@@ -2,11 +2,12 @@
 <appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
     android:initialLayout="@layout/widget_reproductor"
     android:minWidth="250dp"
-    android:minHeight="80dp"
+    android:minHeight="40dp"
+    android:maxHeight="40dp"
     android:updatePeriodMillis="0"
     android:previewImage="@drawable/widget_icono"
     android:widgetCategory="home_screen"
-    android:widgetFeatures="reconfigurable"
-    android:resizeMode="horizontal|vertical"
+    android:resizeMode="horizontal"
+    android:targetCellHeight="1"
     android:description="@string/app_widget_description">
 </appwidget-provider>
