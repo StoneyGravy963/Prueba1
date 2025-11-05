@@ -10,8 +10,8 @@
     <!-- Icono: usar mipmap o PNG para evitar problemas con vectores en algunos launchers -->
     <ImageView
         android:id="@+id/widget_icono"
-        android:layout_width="72dp"
-        android:layout_height="72dp"
+        android:layout_width="96dp"
+        android:layout_height="82dp"
         android:src="@drawable/widget_reproductor1"
         android:contentDescription="@null" />
 
@@ -22,7 +22,7 @@
         android:layout_weight="1"
         android:text="Ninguna canción"
         android:textColor="@color/text_color_primary"
-        android:textSize="16sp"
+        android:textSize="20sp"
         android:gravity="center"
         android:paddingStart="12dp"
         android:paddingEnd="12dp"
@@ -33,17 +33,19 @@
     <ImageView
         android:id="@+id/widget_boton_play_pausa"
         android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_height="68dp"
         android:src="@android:drawable/ic_media_play"
         android:background="@android:color/transparent"
-        android:contentDescription="@null" />
+        android:contentDescription="@null"
+         />
 
     <ImageView
         android:id="@+id/widget_boton_stop"
         android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_height="68dp"
         android:src="@android:drawable/ic_menu_close_clear_cancel"
         android:background="@android:color/transparent"
-        android:contentDescription="@null" />
+        android:contentDescription="@null"
+         />
 
 </LinearLayout>

@@ -4,17 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="16dp"
+    android:padding="20dp"
     android:gravity="center_vertical"
     android:background="?attr/selectableItemBackground">
 
     <ImageView
         android:id="@+id/imagen_icono_cancion"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
         android:src="@drawable/ic_launcher_foreground"
         android:contentDescription="Icono de la canci\u00f3n"
-        android:layout_marginEnd="16dp"/>
+        android:layout_marginEnd="24dp"/>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -26,7 +26,7 @@
             android:id="@+id/texto_nombre_cancion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="@color/text_color_primary"
             tools:text="Nombre de la Canción"/>
@@ -35,7 +35,7 @@
             android:id="@+id/texto_duracion_cancion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:textColor="@color/text_color_secondary"
             tools:text="03:45"/>
 
